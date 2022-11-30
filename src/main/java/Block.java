@@ -1,6 +1,7 @@
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import org.tinylog.Logger;
 import java.math.BigInteger;
@@ -12,14 +13,18 @@ import java.util.Random;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class Block {
-    private String serial;
-    private String hash;
-    private String previousHash;
-    private String data;
-    private long timeStamp;
-    private int nonce;
+    public int serial;
+    public String hash;
+    public String previousHash;
+    public String data;
+    public LocalDate timeStamp;
+    public int nonce;
 
-    public Block(String serial, String data, String previousHash, long timeStamp) {
+    public Node merkleTree;
+
+    public long proof;
+
+    public Block(int serial, String data, String previousHash, LocalDate timeStamp) {
         this.serial = serial;
         this.data = data;
         this.previousHash = previousHash;
@@ -27,10 +32,28 @@ public class Block {
         this.hash = calculateBlockHash();
     }
 
+    public Block(int serial, String data, String previousHash, LocalDate timeStamp,long proof) {
+        this.serial = serial;
+        this.data = data;
+        this.previousHash = previousHash;
+        this.timeStamp = timeStamp;
+        this.hash = calculateBlockHash();
+        this.proof = proof;
+
+    }
+
+    public Block() {
+
+    }
+
+    public String convertstring2(){
+     return "serial: '" + this.serial + "', data: '" + this.data + "', previousHash: '" + this.previousHash + "'" + "', timeStamp: '" + this.timeStamp + "'" + "', hash: '" + this.hash + "'"+ "', Node: '" + this.merkleTree + "'";
+    }
+
 
     public String calculateBlockHash() {
         String dataToHash = previousHash
-                + (Integer.parseInt(serial))
+                + serial
                 + (Integer.parseInt(previousHash))
                 + (timeStamp)
                 + (nonce)
@@ -49,5 +72,7 @@ public class Block {
         }
         return buffer.toString();
     }
-    // standard getters and setters
+    public void setProof(int proof){
+        this.proof = proof;
+    }
 }

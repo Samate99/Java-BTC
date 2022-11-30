@@ -21,7 +21,7 @@ public class Transaction {
         TransactionAmount=transactionAmount;
     }
 
-    public String  convertstring() {
+    public String convertstring() {
         return "Transaction{" + "SellerSignature='" + SellerSignature + '\'' + ", BuyerSignature='" + BuyerSignature + '\'' + ", TransactionAmount=" + TransactionAmount + '}';
     }
 
